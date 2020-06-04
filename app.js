@@ -9,11 +9,13 @@ app.listen(3000, () => {
 });
 
 app.get("/", (req, res) => {
-  res.send("Here is the root");
+  res.render("search");
 });
 
 app.get("/results", (req, res) => {
-  request("http://www.omdbapi.com/?s=georgia&apikey=thewdb&page=1")
+  let query = req.query.search;
+  let url = "http://www.omdbapi.com/?s=" + query;
+  request(url + "&apikey=thewdb&page=1")
     .then((body) => {
       const data = JSON.parse(body);
       res.render("results", {data: data});
